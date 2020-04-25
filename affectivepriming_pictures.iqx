@@ -1,0 +1,941 @@
+﻿<usermanual>
+						
+						AFFECTIVE PRIMING - TEMPLATE with prime pictures and word targets
+
+SCRIPT INFO
+
+Script Author: Katja Borchert, Ph.D. (katjab@millisecond.com) for Millisecond Software, LLC
+Date: 06-09-2015
+last updated: 02-14-2018 by K.Borchert (katjab@millisecond.com) for Millisecond Software LLC
+
+Script Copyright © 02-14-2018 Millisecond Software
+
+
+BACKGROUND INFO
+
+											*Purpose*
+This script implements a simple Affective Priming procedure with supraliminal picture primes and word targets.
+Not based on any particular published paradigm.
+
+
+											  *Task*
+Participants are asked to categorize affective target words into pleasant and unpleasant categories.
+For baseline measures, a baseline supraliminal prime '***' precedes the target words.
+For test measures, supraliminal picture primes precede the target words.  
+
+
+DATA FILE INFORMATION: 
+The default data stored in the data files are:
+
+(1) Raw data file: 'AffectivePriming_pictures_raw*.iqdat' (a separate file for each participant)
+
+build:							Inquisit build
+computer.platform:				the platform the script was run on
+date, time, subject, group:		date and time script was run with the current subject/groUP_testnumber 
+blockcode, blocknum:			the name and number of the current block
+trialcode, trialnum: 			the name and number of the currently recorded trial
+									(Note: not all trials that are run might record data)
+/primecategory:					Unpleasant vs Pleasant
+/targetcategory:				Unpleasant vs Pleasant
+/primeitemnumber:				stores the itemnumber of the currently presented prime
+/prime:							stores the presented prime
+/targetitemnumber:				stores the itemnumber of the currently presented target
+/target:						stores the presented target
+stimulusitem:					the presented stimuli in order of trial presentation
+response:						the participant's response
+correct:						the correctness of the response (1 = correct; 0 = incorrect)
+latency: 						the response latency (in ms)
+
+
+(2) Summary data file: 'AffectivePriming_pictures_summary*.iqdat' (a separate file for each participant)
+
+script.startdate:				date script was run
+script.starttime:				time script was started
+script.subjectid:				subject id number
+script.groupid:					group id number
+script.elapsedtime:				time it took to run script (in ms)
+computer.platform:				the platform the script was run on
+/completed:						0 = script was not completed (prematurely aborted); 1 = script was completed (all conditions run)
+/propcorrect:					overall proportion correct (across baseline and test)
+/meanRT:						overall mean correct latency in ms (across baseline and test)
+/propcorrect_base:				proportion correct baseline trials
+/meanRT_base:					mean latency (ms) of correct baseline trials
+/propcorrect_test:				proportion correct test trials
+/meanRT_test:					mean latency (ms) of correct test trials
+/propcorrect_U_base:			proportion correct Unpleasant baseline trials
+/meanRT_U_base:					mean latency (ms) of correct Unpleasant baseline trials
+/propcorrect_P_base:			proportion correct Pleasant baseline trials
+/meanRT_P_base:					mean latency (ms) of correct Pleasant baseline trials
+/propcorrect_UU_test:			proportion correct test trials that pair Unpleasant primes with Unpleasant targets
+/meanRT_UU_test:				mean latency (in ms) of correct test trials that pair Unpleasant primes with Unpleasant targets
+/propcorrect_UP_test:			proportion correct test trials that pair Unpleasant primes with Pleasant targets
+/meanRT_UP_test:				mean latency (in ms) of correct test trials that pair Unpleasant primes with Pleasant targets
+/propcorrect_PU_test:			proportion correct test trials that pair Pleasant primes with Unpleasant targets
+/meanRT_PU_test:				mean latency (in ms) of correct test trials that pair Pleasant primes with Unpleasant targets
+/propcorrect_PP_test:			proportion correct test trials that pair Pleasant primes with Pleasant targets
+/meanRT_PP_test:				mean latency (in ms) of correct test trials that pair Pleasant primes with Pleasant targets
+
+
+EXPERIMENTAL SET-UP_test
+2 affective primes (pleasant vs unpleasant: here flowers vs. insect pics) x 2 affective targets (pleasant vs unpleasant), tested within subjects
+
+1. baseline ("practice"): 48 trials (all 48 targets) are tested with a baseline prime (***); targets are selected at random
+2. test: 48 trials (all 48 targets); targets are selected at random
+	- all 48 words occur once as prime and once as target
+
+Trialsequence:		Prime (200ms, editable) -> prime-target ISI (100ms, editable) -> Targets (until response; latency measured from onset of target)->ITI (2500ms)
+
+STIMULI
+Words are taken from:
+Draine, S.C, & Greenwald, A.G. (1998). Replicable Unconscious Semantic Priming. Journal of Experimental Psychology: 
+General, 127, 286-303.
+pictures collected from the internet as well as the Inquisit AMP.iqx- they are used as placeholders
+Insects - > unpleasant primes
+Flowers -> pleasant primes
+edit under section Editable Stimuli
+
+INSTRUCTIONS
+generic instructions; can be edited under section Editable Instructions
+
+EDITABLE CODE:
+check below for (relatively) easily editable parameters, stimuli, instructions etc. 
+Keep in mind that you can use this script as a template and therefore always "mess" with the entire code to further customize your experiment.
+
+The parameters you can change are:
+
+/baselineprime:								the symbols used for the baseline "prime"
+/baselineprimeheight:						the height of the baseline prime in % of canvas height (default: 5%)
+/primesize:									the size of the prime pictures in % of canvas height (default: 30%)
+/targetheight:								the size of the targets in % of canvas height (default: 5%)
+
+/primeduration:								the duration of the primes in ms (default: 200ms)
+/PT_ISI:									the duration of the prime-target interstimulus interval (default: 100ms)
+/ITI:										the intertrial interval (default: 2500ms)
+
+/responsekeyleft:							the scancode of the left response key (Note: by default, this is assigned to the Unpleasant category)
+/responsekeyleft_label:						the label of the left response key (default: E)
+/responsekeyright:							the scancode of the right response key (Note: by default, this is assigned to the Pleasant category)
+/responsekeyright_label:					the label of the right response key (default: I)
+
+</usermanual>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EDITABLE PARAMETERS: change editable parameters here
+**************************************************************************************************************
+**************************************************************************************************************
+
+<parameters>
+/baselineprime="***"
+/baselineprimeheight = 5%
+/primesize = 30%
+/targetheight = 5%
+
+/primeduration = 200
+/PT_ISI = 100
+/ITI = 2500
+
+/responsekeyleft = 18
+/responsekeyleft_label = "E"
+/responsekeyright = 23
+/responsekeyright_label = "I"
+</parameters>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EDITABLE STIMULI: change editable stimuli here
+**************************************************************************************************************
+**************************************************************************************************************
+
+<item UnpleasantPrimes>
+/1 = "insect1.jpg"
+/2 = "insect2.jpg"
+/3 = "insect3.jpg"
+/4 = "insect4.jpg"
+/5 = "insect5.jpg"
+/6 = "insect6.jpg"
+/7 = "insect7.jpg"
+/8 = "insect8.jpg"
+/9 = "insect9.jpg"
+/10 = "insect10.jpg"
+/11 = "insect11.jpg"
+/12 = "insect12.jpg"
+/13 = "insect13.jpg"
+/14 = "insect14.jpg"
+/15 = "insect15.jpg"
+/16 = "insect16.jpg"
+/17 = "insect17.jpg"
+/18 = "insect18.jpg"
+/19 = "insect19.jpg"
+/20 = "insect20.jpg"
+/21 = "insect21.jpg"
+/22 = "insect22.jpg"
+/23 = "insect23.jpg"
+/24 = "insect24.jpg"
+</item>
+
+<item PleasantPrimes>
+/1 = "flower1.jpg"
+/2 = "flower2.jpg"
+/3 = "flower3.jpg"
+/4 = "flower4.jpg"
+/5 = "flower5.jpg"
+/6 = "flower6.jpg"
+/7 = "flower7.jpg"
+/8 = "flower8.jpg"
+/9 = "flower9.jpg"
+/10 = "flower10.jpg"
+/11 = "flower11.jpg"
+/12 = "flower12.jpg"
+/13 = "flower13.jpg"
+/14 = "flower14.jpg"
+/15 = "flower15.jpg"
+/16 = "flower16.jpg"
+/17 = "flower17.jpg"
+/18 = "flower18.jpg"
+/19 = "flower19.jpg"
+/20 = "flower20.jpg"
+/21 = "flower21.jpg"
+/22 = "flower22.jpg"
+/23 = "flower23.jpg"
+/24 = "flower24.jpg"
+</item>
+
+<item UnpleasantTargets>
+/1 = "EVIL"
+/2 = "CANCER"
+/3 = "SICKNESS"
+/4 = "DISASTER"
+/5 = "POVERTY"
+/6 = "VOMIT"
+/7 = "BOMB"
+/8 = "ROTTEN"
+/9 = "ABUSE"
+/10 = "MURDER"
+/11 = "ASSAULT"
+/12 = "SLIME"
+/13 = "DIVORCE"
+/14 = "POISON"
+/15 = "KILL"
+/16 = "DEATH"
+/17 = "HATRED"
+/18 = "SCUM"
+/19 = "ACCIDENT"
+/20 = "JAIL"
+/21 = "STINK"
+/22 = "TORTURE"
+/23 = "CRASH"
+/24 = "FILTH"
+</item>
+
+<item PleasantTargets>
+/1 = "HONOR"
+/2 = "LUCKY"
+/3 = "DIAMOND"
+/4 = "LOYAL"
+/5 = "FREEDOM"
+/6 = "RAINBOW"
+/7 = "LOVE"
+/8 = "HONEST"
+/9 = "PEACE"
+/10 = "HEAVEN"
+/11 = "PLEASURE"
+/12 = "FAMILY"
+/13 = "DIPLOMA"
+/14 = "KISS"
+/15 = "CHEER"
+/16 = "HEALTH"
+/17 = "FRIEND"
+/18 = "CARESS"
+/19 = "SUNSET"
+/20 = "HAPPY"
+/21 = "MIRACLE"
+/22 = "SUNRISE"
+/23 = "PARADISE"
+/24 = "VACATION"
+</item>
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EDITABLE INSTRUCTIONS: change instructions here
+**************************************************************************************************************
+**************************************************************************************************************
+<item instructions>
+/1 =" Words representing the categories at the top will appear one-by-one in the middle of the screen. A row of '***' will  precede each word and alert you that the word is about to appear.
+
+When the word belongs to the category on the left, press the left response <%expressions.buttoninstruct1%> ('<%parameters.responsekeyleft_label%>').
+When the word belongs to the category on the right, press the right response <%expressions.buttoninstruct1%> ('<%parameters.responsekeyright_label%>'). 
+
+Items belong to only one category. If you make an error, a red X will appear.
+
+
+This is a timed sorting task. GO AS FAST AS YOU CAN while making as few mistakes as possible. 
+
+Press <SPACEBAR> to start."
+/2 = "You will be identifying the meaning of words just like before.  But, this time a picture instead of the '***' will precede the word you are asked to categorize.
+Pay attention to pictures and words, but only respond to the meaning of the word.
+
+When the word belongs to the category on the left, press the left response <%expressions.buttoninstruct1%> ('<%parameters.responsekeyleft_label%>').
+When the word belongs to the category on the right, press the right response <%expressions.buttoninstruct1%> ('<%parameters.responsekeyright_label%>'). 
+
+Items belong to only one category. If you make an error, a red X will appear.
+
+This is a timed sorting task. GO AS FAST AS YOU CAN while making as few mistakes as possible. 
+
+Press <SPACEBAR> to start."
+</item>
+
+
+<instruct>
+/ fontstyle = ("Arial", 3.00%, false, false, false, false, 5, 1)
+/ txcolor = (black)
+</instruct>
+
+<page End>
+You have reached the end of the task.
+^^Thank you!
+</page>
+
+****************************************************************************************************
+general instruction expressions: adjust the instruction text depending on device used to run script
+****************************************************************************************************
+<expressions>
+/buttoninstruct1 = if (computer.touch && !computer.haskeyboard) {"button";} else {"key";}
+/buttoninstruct2 = if (computer.touch && !computer.haskeyboard) {"Place your index fingers over the left and right response buttons";} else {"Place your index fingers on the <%parameters.responsekeyleft_label%> and <%parameters.responsekeyright_label%> keys";}
+</expressions>
+
+
+*******************************
+General Helper Instructions
+******************************
+
+<text getReady>
+/items = ("Get Ready:
+~n<%expressions.buttoninstruct2%>")
+/ fontstyle = ("Arial", 3.00%, false, false, false, false, 5, 1)
+/ size = (80%, 40%)
+</text>
+
+
+**************************************************************************************************************
+								!!!REMAINING CODE: Customize after careful consideration only!!!
+**************************************************************************************************************
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+	DEFAULTS
+**************************************************************************************************************
+**************************************************************************************************************
+script requires Inquisit 5.0.0.0 or higher
+
+<defaults >
+/canvasaspectratio = (4,3)
+/minimumversion = "5.0.0.0"
+/ fontstyle = ("Arial", 3%, false, false, false, false, 5, 1)
+/txbgcolor = black
+/ txcolor = (white)
+/ screencolor = black
+</defaults>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	DATA
+**************************************************************************************************************
+**************************************************************************************************************
+
+Note: data file explanations under User Manual Information at the top
+
+***********************
+raw data file
+***********************
+<data>
+/ separatefiles = true
+/ columns = (build, computer.platform, date, time, subject, group, blockcode, blocknum, trialcode, trialnum, 
+values.primecategory, values.targetcategory, values.primeitemnumber, values.prime, values.targetitemnumber, values.target,
+stimulusitem, response, correct, latency)
+</data>
+
+***********************
+summary data file
+***********************
+
+<summarydata>
+/columns = (script.startdate, script.starttime, script.subjectid, script.groupid, script.elapsedtime, computer.platform, values.completed, 
+expressions.propcorrect, expressions.meanRT,
+expressions.propcorrect_base, expressions.meanRT_base, 
+expressions.propcorrect_U_base, expressions.meanRT_U_base, expressions.propcorrect_P_base, expressions.meanRT_P_base,
+expressions.propcorrect_test, expressions.meanRT_test,
+expressions.propcorrect_UU_test, expressions.meanRT_UU_test, expressions.propcorrect_UP_test, expressions.meanRT_UP_test,
+expressions.propcorrect_PU_test, expressions.meanRT_PU_test, expressions.propcorrect_PP_test, expressions.meanRT_PP_test)
+/ separatefiles = true
+</summarydata>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	VALUES: automatically UP_testdated
+**************************************************************************************************************
+**************************************************************************************************************
+                                    
+/completed:						0 = script was not completed; 1 = script was completed (all conditions run)
+
+/responsekeyUnpleasant:			responsekey scancode assigned to target 'Unpleasant' (here: negative) words
+/responsekeyUnpleasant_label:	the label that goes with the assigned category A scancode
+/responsekeyPleasant:			responsekey scancode assigned to target 'Pleasant' (here: positive) words
+/responsekeyPleasant_label:		the label that goes with the assigned category B scancode
+
+/primecategory:					Unpleasant vs Pleasant
+/targetcategory:				Unpleasant vs Pleasant
+/primeitemnumber:				stores the itemnumber of the currently presented prime
+/targetitemnumber:				stores the itemnumber of the currently presented target
+/target:						stores the presented target
+/prime:							stores the presented prime
+		
+<values>
+/completed = 0
+
+/responsekeyUnpleasant = 0
+/responsekeyUnpleasant_label = ""
+/responsekeyPleasant = 0
+/responsekeyPleasant_label = ""
+
+/primecategory = 0
+/targetcategory = 0
+/primeitemnumber = 0
+/targetitemnumber = 0
+/target = ""
+/prime = ""
+</values>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EXPRESSIONS
+**************************************************************************************************************
+**************************************************************************************************************
+/propcorrect:							overall proportion correct (across baseline and test)
+/meanRT:								overall mean correct latency in ms (across baseline and test)
+
+/propcorrect_base:						proportion correct baseline trials
+/meanRT_base:							mean latency (ms) of correct baseline trials
+/propcorrect_test:						proportion correct test trials
+/meanRT_test:							mean latency (ms) of correct test trials
+
+/propcorrect_U_base:					proportion correct Unpleasant baseline trials
+/meanRT_U_base:							mean latency (ms) of correct Unpleasant baseline trials
+/propcorrect_P_base:					proportion correct Pleasant baseline trials
+/meanRT_P_base:							mean latency (ms) of correct Pleasant baseline trials
+
+/propcorrect_UU_test:					proportion correct test trials that pair Unpleasant primes with Unpleasant targets
+/meanRT_UU_test:						mean latency (in ms) of correct test trials that pair Unpleasant primes with Unpleasant targets
+/propcorrect_UP_test:					proportion correct test trials that pair Unpleasant primes with Pleasant targets
+/meanRT_UP_test:						mean latency (in ms) of correct test trials that pair Unpleasant primes with Pleasant targets
+/propcorrect_PU_test:					proportion correct test trials that pair Pleasant primes with Unpleasant targets
+/meanRT_PU_test:						mean latency (in ms) of correct test trials that pair Pleasant primes with Unpleasant targets
+/propcorrect_PP_test:					proportion correct test trials that pair Pleasant primes with Pleasant targets
+/meanRT_PP_test:						mean latency (in ms) of correct test trials that pair Pleasant primes with Pleasant targets
+
+<expressions >
+/propcorrect = list.accuracy.mean
+/meanRT = list.latencies.mean
+
+/propcorrect_base = list.accuracy_Base.mean
+/meanRT_base = list.latencies_Base.mean
+/propcorrect_test = list.accuracy_test.mean
+/meanRT_test = list.latencies_test.mean
+
+/propcorrect_U_base = list.accuracy_U_Base.mean
+/meanRT_U_base = list.latencies_U_Base.mean
+/propcorrect_P_base = list.accuracy_P_Base.mean
+/meanRT_P_base = list.latencies_P_Base.mean
+
+/propcorrect_UU_test = list.accuracy_UU_test.mean
+/meanRT_UU_test = list.latencies_UU_test.mean
+/propcorrect_UP_test = list.accuracy_UP_test.mean
+/meanRT_UP_test = list.latencies_UP_test.mean
+/propcorrect_PU_test = list.accuracy_PU_test.mean
+/meanRT_PU_test = list.latencies_PU_test.mean
+/propcorrect_PP_test = list.accuracy_PP_test.mean
+/meanRT_PP_test = list.latencies_PP_test.mean
+</expressions>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	INSTRUCTIONS
+**************************************************************************************************************
+**************************************************************************************************************
+
+Note: samples instruction items in sequence - doesn't reset for 10 blocks.
+<text instructions>
+/ items = instructions
+/ select = sequence
+/ vjustify = center
+/ hjustify = left
+/ fontstyle = ("Arial", 3%, false, false, false, false, 5, 1)
+/ position = (50%, 50%)
+/ size = (100%, 70%)
+/ resetinterval = 10
+</text>
+
+<trial instructions>
+/ stimulusframes = [1 = instructions]
+/ validresponse = (57)
+/ recorddata = false
+</trial>
+
+
+This trial is used when participants are asked to place their fingers on specific response
+buttons. On the touchscreen, this trial presents the (inactive) response buttons to the participants.
+<trial getReady>
+/ stimulusframes = [1 = getReady]
+/ trialduration = 5000
+/ validresponse = (parameters.responsekeyleft, parameters.responsekeyright)
+/ beginresponsetime = 5000
+/ errormessage = false
+/ recorddata = false
+</trial>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	STIMULI
+**************************************************************************************************************
+**************************************************************************************************************
+
+<text positive>
+/ items = ("Pleasant")
+/ fontstyle = ("Arial", 4%, false, false, false, false, 5, 1)
+/ position = (90%, 10%)
+/ erase = false
+/ txcolor = gray
+</text>
+
+<text negative>
+/ items = ("Unpleasant")
+/ fontstyle = ("Arial", 4%, false, false, false, false, 5, 1)
+/ position = (10%, 10%)
+/ erase = false
+/ txcolor = gray
+</text>
+
+<shape eraser>
+/ shape = rectangle
+/ position = (50%, 50%)
+/ color = black
+/ size = (70%, 70%)
+</shape>
+
+<picture UnpleasantPrime>
+/items = UnpleasantPrimes
+/ select = values.primeitemnumber
+/ position = (50%, 50%)
+/ size = (parameters.primesize, parameters.primesize)
+</picture>
+
+<picture PleasantPrime>
+/items = PleasantPrimes
+/ select = values.primeitemnumber
+/ position = (50%, 50%)
+/ size = (parameters.primesize, parameters.primesize)
+</picture>
+
+<text UnpleasantTarget>
+/items = UnpleasantTargets
+/ select = values.targetitemnumber
+/ fontstyle = ("Arial", parameters.targetheight, false, false, false, false, 5, 1)
+/ position = (50%, 50%)
+</text>
+
+<text PleasantTarget>
+/items = PleasantTargets
+/ select = values.targetitemnumber
+/ fontstyle = ("Arial", parameters.targetheight, false, false, false, false, 5, 1)
+/ position = (50%, 50%)
+</text>
+
+<text baselineprime>
+/items = ("<%parameters.baselineprime%>")
+/ fontstyle = ("Arial", parameters.baselineprimeheight, false, false, false, false, 5, 1)
+/ position = (50%, 50%)
+</text>
+
+<text errorfeedback>
+/ items = ("X")
+/ fontstyle = ("Arial", 8%, true, false, false, false, 5, 1)
+/ position = (50%, 70%)
+/ txcolor = red
+</text>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	LISTS	
+**************************************************************************************************************
+**************************************************************************************************************
+Note: list.UnpleasantTargetitemnumbers selects randomly without replacement 1 of the 24 Unpleasant target itemnumbers
+<list UnpleasantTargetitemnumbers>
+/ items = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
+/ replace = false
+/ resetinterval = 1
+</list>
+
+Note: list.PleasantTargetitemnumbers selects randomly without replacement 1 of the 24 Pleasant target itemnumbers
+<list PleasantTargetitemnumbers>
+/ items = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
+/ replace = false
+/ resetinterval = 1
+</list>
+
+Note: list.UnpleasantPrimeitemnumbers selects randomly without replacement 1 of the 24 prime itemnumbers
+without selecting the same itemnumber as selected for the target
+In rare cases, the no-repeat constraint can be violated. This happens if only the same 
+itemnumber as the target is still up for selection.
+
+!!!If different items are used for targets and primes, the not-constraint can be deleted
+<list UnpleasantPrimeitemnumbers>
+/ items = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
+/ replace = false
+/ resetinterval = 1
+</list>
+
+Note: list.PleasantPrimeitemnumbers selects randomly without replacement 1 of the 24 prime itemnumbers
+without selecting the same itemnumber as selected for the target
+In rare cases, the no-repeat constraint can be violated. This happens if only the same 
+itemnumber as the target is still up for selection.
+
+!!!If different items are used for targets and primes, the not-constraint can be deleted
+<list PleasantPrimeitemnumbers>
+/ items = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
+/ replace = false
+/ resetinterval = 1
+</list>
+
+*************************************************
+Data Lists: used for descriptive statistics
+store correct latencies/accuracy data
+fill up during runtime
+*************************************************
+
+<list accuracy>
+</list>
+
+<list latencies>
+</list>
+
+
+<list accuracy_Base>
+</list>
+
+<list latencies_Base>
+</list>
+
+<list accuracy_U_Base>
+</list>
+
+<list latencies_U_Base>
+</list>
+
+<list accuracy_P_Base>
+</list>
+
+<list latencies_P_Base>
+</list>
+
+<list accuracy_test>
+</list>
+
+<list latencies_test>
+</list>
+
+<list accuracy_UU_test>
+</list>
+
+<list latencies_UU_test>
+</list>
+
+<list accuracy_UP_test>
+</list>
+
+<list latencies_UP_test>
+</list>
+
+<list accuracy_PU_test>
+</list>
+
+<list latencies_PU_test>
+</list>
+
+<list accuracy_PP_test>
+</list>
+
+<list latencies_PP_test>
+</list>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	TRIALS 	
+**************************************************************************************************************
+**************************************************************************************************************
+
+<trial U_baseline>
+/ ontrialbegin = [
+	values.targetcategory="Unpleasant"; 
+	values.primecategory="baseline";
+	values.targetitemnumber=list.UnpleasantTargetitemnumbers.nextvalue;
+	trial.U_baseline.insertstimulustime(shape.eraser, parameters.primeduration);
+	trial.U_baseline.insertstimulustime(text.UnpleasantTarget, (parameters.primeduration + parameters.PT_ISI));
+]
+/ stimulustimes = [0 = baselineprime]
+/ beginresponsetime = parameters.primeduration + parameters.PT_ISI
+/ responseinterrupt = immediate
+/ validresponse = (parameters.responsekeyleft, parameters.responsekeyright)
+/ correctresponse = (values.responsekeyUnpleasant)
+
+/ ontrialend = [
+	trial.U_baseline.resetstimulusframes();
+	values.prime = parameters.baselineprime; 
+	values.target = text.UnpleasantTarget.currentitem;
+	
+	list.accuracy.insertitem(trial.U_baseline.correct, 1);
+	list.accuracy_Base.insertitem(trial.U_baseline.correct, 1);
+	list.accuracy_U_Base.insertitem(trial.U_baseline.correct, 1);
+
+	if (trial.U_baseline.correct) {
+		list.latencies.insertitem(trial.U_baseline.latency, 1);
+		list.latencies_Base.insertitem(trial.U_baseline.latency, 1);
+		list.latencies_U_Base.insertitem(trial.U_baseline.latency, 1);
+	}
+]
+/ posttrialpause = parameters.ITI
+/ errormessage = true(errorfeedback, 500)
+</trial>
+
+<trial P_baseline>
+/ ontrialbegin = [
+	values.targetcategory="Pleasant"; 
+	values.primecategory="baseline";
+	values.targetitemnumber=list.PleasantTargetitemnumbers.nextvalue;
+	trial.P_baseline.insertstimulustime(shape.eraser, parameters.primeduration);
+	trial.P_baseline.insertstimulustime(text.PleasantTarget, (parameters.primeduration + parameters.PT_ISI));
+]
+/ stimulustimes = [0 = baselineprime]
+/ beginresponsetime = parameters.primeduration + parameters.PT_ISI
+/ responseinterrupt = immediate
+/ validresponse = (parameters.responsekeyleft, parameters.responsekeyright)
+/ correctresponse = (values.responsekeyPleasant)
+
+/ ontrialend = [
+	trial.P_baseline.resetstimulusframes();
+	values.prime = parameters.baselineprime; values.target = text.PleasantTarget.currentitem;
+
+	list.accuracy.insertitem(trial.P_baseline.correct, 1);
+	list.accuracy_Base.insertitem(trial.P_baseline.correct, 1);
+	list.accuracy_P_Base.insertitem(trial.P_baseline.correct, 1);
+
+	if (trial.P_baseline.correct) {
+		list.latencies.insertitem(trial.P_baseline.latency, 1);
+		list.latencies_Base.insertitem(trial.P_baseline.latency, 1);
+		list.latencies_P_Base.insertitem(trial.P_baseline.latency, 1);
+	}
+]
+/ posttrialpause = parameters.ITI
+/ errormessage = true(errorfeedback, 500)
+</trial>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	TRIALS 	
+**************************************************************************************************************
+**************************************************************************************************************
+
+Note: trial.UU_test
+- updates counts
+- selects the current unpleasant prime and unpleasant target from their respective lists
+- presents the unpleasant prime p
+- replaces the prime picture with a blank stimulus after parameters.primeduration
+- replaces the blank stimulus with the unpleasant target after another vales.pt_isi
+- starts recording latency at onset of target
+- waits for response and evaluates response
+- updates summary values
+- adds error feedback as well as the intertrial interval
+
+<trial UU_test>
+/ ontrialbegin = [
+	values.primecategory="Unpleasant"; 
+	values.targetcategory="Unpleasant";
+	values.targetitemnumber = list.UnpleasantTargetitemnumbers.nextvalue; 
+	values.primeitemnumber = list.UnpleasantPrimeitemnumbers.nextvalue;
+	trial.UU_test.insertstimulustime(shape.eraser, (parameters.primeduration));
+	trial.UU_test.insertstimulustime(text.UnpleasantTarget, (parameters.primeduration + parameters.PT_ISI));
+]
+/ stimulustimes = [0 = UnpleasantPrime]
+/ beginresponsetime = parameters.primeduration + parameters.PT_ISI
+/ responseinterrupt = immediate
+/ validresponse = (parameters.responsekeyleft, parameters.responsekeyright)
+/ correctresponse = (values.responsekeyUnpleasant)
+
+/ ontrialend = [
+	trial.UU_test.resetstimulusframes();
+	values.prime = picture.UnpleasantPrime.currentitem; 
+	values.target = text.UnpleasantTarget.currentitem;
+	
+	list.accuracy.insertitem(trial.UU_test.correct, 1);
+	list.accuracy_test.insertitem(trial.UU_test.correct, 1);
+	list.accuracy_UU_test.insertitem(trial.UU_test.correct, 1);
+
+	if (trial.UU_test.correct) {
+		list.latencies.insertitem(trial.UU_test.latency, 1);
+		list.latencies_test.insertitem(trial.UU_test.latency, 1);
+		list.latencies_UU_test.insertitem(trial.UU_test.latency, 1);
+	}
+]
+/ posttrialpause = parameters.ITI
+/ errormessage = true(errorfeedback, 500)
+</trial>
+
+<trial UP_test>
+/ ontrialbegin = [
+	values.primecategory="Unpleasant"; 
+	values.targetcategory="Pleasant";
+	values.targetitemnumber = list.PleasantTargetitemnumbers.nextvalue; 
+	values.primeitemnumber = list.UnpleasantPrimeitemnumbers.nextvalue;
+	trial.UP_test.insertstimulustime(shape.eraser, (parameters.primeduration));
+	trial.UP_test.insertstimulustime(text.PleasantTarget, (parameters.primeduration + parameters.PT_ISI));
+]
+/ stimulustimes = [0 = UnpleasantPrime]
+/ beginresponsetime = parameters.primeduration + parameters.PT_ISI
+/ responseinterrupt = immediate
+/ validresponse = (parameters.responsekeyleft, parameters.responsekeyright)
+/ correctresponse = (values.responsekeyPleasant)
+
+/ ontrialend = [
+	trial.UP_test.resetstimulusframes();
+	values.prime = picture.UnpleasantPrime.currentitem; 
+	values.target = text.PleasantTarget.currentitem;
+
+	list.accuracy.insertitem(trial.UP_test.correct, 1);
+	list.accuracy_test.insertitem(trial.UP_test.correct, 1);
+	list.accuracy_UP_test.insertitem(trial.UP_test.correct, 1);
+
+	if (trial.UP_test.correct) {
+		list.latencies.insertitem(trial.UP_test.latency, 1);
+		list.latencies_test.insertitem(trial.UP_test.latency, 1);
+		list.latencies_UP_test.insertitem(trial.UP_test.latency, 1);
+	}
+]
+/ posttrialpause = parameters.ITI
+/ errormessage = true(errorfeedback, 500)
+</trial>
+
+<trial PU_test>
+/ ontrialbegin = [
+	values.primecategory="Pleasant"; 
+	values.targetcategory="Unpleasant";
+	values.targetitemnumber = list.UnpleasantTargetitemnumbers.nextvalue; 
+	values.primeitemnumber = list.PleasantPrimeitemnumbers.nextvalue;
+	trial.PU_test.insertstimulustime(shape.eraser, (parameters.primeduration));
+	trial.PU_test.insertstimulustime(text.UnpleasantTarget, (parameters.primeduration + parameters.PT_ISI));
+]
+/ stimulustimes = [0 = PleasantPrime]
+/ beginresponsetime = parameters.primeduration + parameters.PT_ISI
+/ responseinterrupt = immediate
+/ validresponse = (parameters.responsekeyleft, parameters.responsekeyright)
+/ correctresponse = (values.responsekeyUnpleasant)
+
+/ ontrialend = [
+	trial.PU_test.resetstimulusframes();
+	values.prime = picture.PleasantPrime.currentitem; 
+	values.target = text.UnpleasantTarget.currentitem;
+
+	list.accuracy.insertitem(trial.PU_test.correct, 1);
+	list.accuracy_test.insertitem(trial.PU_test.correct, 1);
+	list.accuracy_PU_test.insertitem(trial.PU_test.correct, 1);
+
+	if (trial.PU_test.correct) {
+		list.latencies.insertitem(trial.PU_test.latency, 1);
+		list.latencies_test.insertitem(trial.PU_test.latency, 1);
+		list.latencies_PU_test.insertitem(trial.PU_test.latency, 1);
+	}
+]
+/ posttrialpause = parameters.ITI
+/ errormessage = true(errorfeedback, 500)
+</trial>
+
+<trial PP_test>
+/ ontrialbegin = [
+	values.primecategory="Pleasant"; 
+	values.targetcategory="Pleasant";
+	values.targetitemnumber = list.PleasantTargetitemnumbers.nextvalue; 
+	values.primeitemnumber = list.PleasantPrimeitemnumbers.nextvalue;
+	trial.PP_test.insertstimulustime(shape.eraser, (parameters.primeduration));
+	trial.PP_test.insertstimulustime(text.PleasantTarget, (parameters.primeduration + parameters.PT_ISI));
+]
+/ stimulustimes = [0 = PleasantPrime]
+/ beginresponsetime = parameters.primeduration + parameters.PT_ISI
+/ responseinterrupt = immediate
+/ validresponse = (parameters.responsekeyleft, parameters.responsekeyright)
+/ correctresponse = (values.responsekeyPleasant)
+/ ontrialend = [
+	trial.PP_test.resetstimulusframes();
+	values.prime = picture.PleasantPrime.currentitem; 
+	values.target = text.PleasantTarget.currentitem;
+
+	list.accuracy.insertitem(trial.PP_test.correct, 1);
+	list.accuracy_test.insertitem(trial.PP_test.correct, 1);
+	list.accuracy_PP_test.insertitem(trial.PP_test.correct, 1);
+
+	if (trial.PP_test.correct) {
+		list.latencies.insertitem(trial.PP_test.latency, 1);
+		list.latencies_test.insertitem(trial.PP_test.latency, 1);
+		list.latencies_PP_test.insertitem(trial.PP_test.latency, 1);
+	}
+]
+/ posttrialpause = parameters.ITI
+/ errormessage = true(errorfeedback, 500)
+</trial>
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+	BLOCKS
+**************************************************************************************************************
+**************************************************************************************************************
+
+Note: block.baseline presents 48 trials for all 48 targets with a baseline prime (***)
+- order of positive and negative primes is selected randomly
+<block baseline>
+/ bgstim = (positive, negative)
+/ trials = [1 = instructions; 2 = getReady; 3-50 = noreplace(U_baseline, P_baseline)]
+</block>
+
+Note: block.test presents 48 trials for all 48 possible targets
+- order of positive and negative primes is selected randomly
+<block test>
+/ bgstim = (positive, negative)
+/ trials = [1 = instructions; 2 = getReady; 3-50 = noreplace(UU_test, UP_test, PU_test, PP_test)]
+</block>
+
+**************************************************************************************************************
+**************************************************************************************************************
+	EXPERIMENT 
+**************************************************************************************************************
+**************************************************************************************************************
+
+<expt >
+/ postinstructions = (END)
+/ onexptbegin = [
+	values.responsekeyUnpleasant = parameters.responsekeyleft; 
+	values.responsekeyUnpleasant_label = parameters.responsekeyleft_label;
+	values.responsekeyPleasant = parameters.responsekeyright; 
+	values.responsekeyPleasant_label = parameters.responsekeyright_label;
+]
+/ blocks = [
+	1 = baseline; 
+	2 = test;
+]
+/ onexptend = [
+	values.completed = 1;
+]
+</expt>
+
+**************************************************************************************************************
+												End of File
+**************************************************************************************************************
